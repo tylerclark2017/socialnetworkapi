@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Thought = require('../models/Thought');
+const Thought = require('../../models/Thought');
 
 // GET all thoughts
-router.get('/api/thoughts', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const thoughts = await Thought.find();
         res.json(thoughts);
@@ -13,7 +13,7 @@ router.get('/api/thoughts', async (req, res) => {
     });
 
     // GET a single thought by its ID
-    router.get('/api/thoughts/:id', async (req, res) => {
+    router.get('/:id', async (req, res) => {
         try {
             const thought = await Thought.findById(req.params.id);
             
@@ -27,7 +27,7 @@ router.get('/api/thoughts', async (req, res) => {
     });
 
     // POST a new thought
-    router.post('/api/thoughts', async (req, res) => {
+    router.post('/', async (req, res) => {
         try {
             const thought = new Thought(req.body);
             await thought.save();
@@ -38,7 +38,7 @@ router.get('/api/thoughts', async (req, res) => {
     });
 
     // PUT to update a thought by its ID
-    router.put('api/thoughts/:id', async  (req, res) => {
+    router.put('/:id', async  (req, res) => {
         try {
             const thought = await Thought.findByIdAndUpdate(req.params.id, req.body, { new: true});
             if(!thought) {
@@ -51,7 +51,7 @@ router.get('/api/thoughts', async (req, res) => {
     });
 
     // DELETE a thought by its ID
-    router.delete('/api/thoughts/:id', async (req, res) => {
+    router.delete('/:id', async (req, res) => {
         try {
             const thought = await Thought.findByIdAndDelete(req.params.id);
             if (!thought) {
@@ -61,4 +61,7 @@ router.get('/api/thoughts', async (req, res) => {
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
-        });
+    });
+
+
+module.exports = router;

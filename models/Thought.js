@@ -3,8 +3,8 @@ const { Schema, model } = require('mongoose');
 // Schema for what makes up a reaction
 const reactionSchema = new Schema({
     reactionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: () => new mongoose.Types.ObjectId()
+      type: Schema.Types.ObjectId,
+      default: () => new Schema.Types.ObjectId()
     },
     reactionBody: {
       type: String,
@@ -21,7 +21,9 @@ const reactionSchema = new Schema({
     }
   });
 
-  const thoughtSchema = new Schema({thoughtText: {
+  const thoughtSchema = new Schema(
+  {
+    thoughtText: {
     type: String,
     required: true,
     minlength: 1,

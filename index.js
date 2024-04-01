@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(routes);
 
 db.once('open', () => {
+  console.log('DB connected ...');
   app.listen(PORT, () => {
     console.log(`API server for ${activity} running on port ${PORT}!`);
   });

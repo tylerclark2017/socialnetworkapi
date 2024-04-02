@@ -63,5 +63,41 @@ router.get('/', async (req, res) => {
         }
     });
 
+    // POST to create a reaction stored in a single thought's reactions array field
+router.post('/:thoughtId/reactions', async (req, res) => {
+    try {
+        const thought = await Thought.findById(req.params.thoughtId);
+        if (!thought) {
+            return res.status(404).json({ message: "Thought not found" });
+        }
+
+        // Assuming req.body contains the reaction data
+        thought.reactions.push(req.body);
+        await thought.save();
+
+        res.status(201).json({ message: "Reaction created successfully" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// DELETE to pull and remove a reaction by the reaction's reactionId value
+router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
+    try {
+        const thought = await Thought.findById(req.params.thoughtId);
+        if (!thought) {
+            return res.status(404).json({ message: "Thought not found" });
+        }
+
+        // Remove the reaction from the reactions array
+        thought.reactions.pull({ _id: req.params.reactionId });
+        await thought.save();
+
+        res.status(200).json({ message: "Reaction removed successfully" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;

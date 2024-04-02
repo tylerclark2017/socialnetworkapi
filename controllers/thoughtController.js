@@ -1,10 +1,10 @@
-const { Thought } = require('./models/Thought');
+const Thought  = require('../models/Thought');
 
 const thoughtController = {
     // GET all thoughts
     getAllThoughts: async (req, res) => {
         try {
-            const thoughts = await Thought.find({});
+            const thoughts = await Thought.find();
             res.json(thoughts);
         } catch (err) {
             res.status(400).json(err);

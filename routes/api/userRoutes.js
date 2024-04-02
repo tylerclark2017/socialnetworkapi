@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 // GET a single user by its _id and populated thought and friend data
 router.get('/:id', async (req, res) => {
     try {
-        //const user = await User.findById(req.params.id).populate('thoughts').populate('friends');
+        // const user = await User.findById(req.params.id).populate('thoughts').populate('friends');
         const user = await User.findById(req.params.id);
         console.log("User Obj: ", user)
         if (!user) {
@@ -68,7 +68,8 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.post('/:userId/friends/:friendId', async (req, res) => {
+// POST to add a friend to a user's friend list
+router.post('/:userId/friends/', async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);
         if (!user) {

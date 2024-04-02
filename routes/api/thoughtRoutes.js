@@ -63,23 +63,31 @@ router.get('/', async (req, res) => {
         }
     });
 
-    // POST to create a reaction stored in a single thought's reactions array field
-router.post('/:thoughtId/reactions', async (req, res) => {
-    try {
-        const thought = await Thought.findById(req.params.thoughtId);
-        if (!thought) {
-            return res.status(404).json({ message: "Thought not found" });
+    router.post('/:thoughtId/reactions', async (req, res) => {
+        try {
+            const thought = await Thought.findById(req.params.thoughtId);
+            if (!thought) {
+                return res.status(404).json({ message: "Thought not found" });
+            }
+    
+            // Extract reaction data from request body
+            const { reactionBody, username } = req.body;
+    
+            // Create a new reaction object
+            const newReaction = {
+                reactionBody,
+                username
+            };
+    
+            // Push the new reaction to the reactions array
+            thought.reactions.push(newReaction);
+            await thought.save();
+    
+            res.status(201).json({ message: "Reaction created successfully" });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
         }
-
-        // Assuming req.body contains the reaction data
-        thought.reactions.push(req.body);
-        await thought.save();
-
-        res.status(201).json({ message: "Reaction created successfully" });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
+    });
 
 // DELETE to pull and remove a reaction by the reaction's reactionId value
 router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
@@ -89,11 +97,17 @@ router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
             return res.status(404).json({ message: "Thought not found" });
         }
 
+        // Find the index of the reaction with the specified reactionId
+        const reactionIndex = thought.reactions.findIndex(reaction => reaction.reactionId.toString() === req.params.reactionId);
+        if (reactionIndex === -1) {
+            return res.status(404).json({ message: "Reaction not found" });
+        }
+
         // Remove the reaction from the reactions array
-        thought.reactions.pull({ _id: req.params.reactionId });
+        thought.reactions.splice(reactionIndex, 1);
         await thought.save();
 
-        res.status(200).json({ message: "Reaction removed successfully" });
+        res.status(200).json({ message: "Reaction deleted successfully" });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

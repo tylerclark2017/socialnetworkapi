@@ -1,7 +1,7 @@
 # socialnetworkapi
 
 ## Description
- This Module 18 Challenge, to create an API for a social network where users can create a username, add their thoughts and reactions to other users' thoughts, add and delete friends from their account, and more,  was designed to teach us how to cointue to use MongoDB, and furthered our knowledge of the MVC framework and other backend technologies that we have been utilizing over the last few units. 
+ This Module 18 Challenge, to create an API for a social network where users can create a username, add their thoughts and reactions to other users' thoughts, add and delete friends from their account, and more, was designed to teach us how to continue to use MongoDB, and furthered our knowledge of the MVC framework and other backend technologies that we have been utilizing over the last few units. 
 
  We used Express JS to help us create our numerous routes and the Mongoose packages to help us create our MongoDB database. I also used the native Javascript Date object, as explained in the project documentation. 
 
